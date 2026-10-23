@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h4> Order Here  </h4>
+    </header>
+    <main>
+   <section id="beranda">
+    <h2>
+    List Menu
+    </h2>
+    <h3>Minuman </h3>
+    <ul id="menu">
+     <li>
+      Matcha Dubai Latte - Rp 30.000
+     </li>
+     <li>
+      Thai Manggo Tea - Rp 28.000
+     </li>
+     <li>
+      Fresh Lemonade - Rp 18.000
+     </li>
+     <li>
+      Americano Burst - Rp 20.000
+     </li>
+     <li>
+      Kopi Tarik - Rp 24.000
+     </li>
+     <li>
+      Creamy Espresso - Rp 28.000
+     </li>
+    </ul>
+   </section>
+   <aside>
+    <h3> Makanan</h3>
+    <ul>
+        <li>
+      Nasi Goreng Djaya - Rp 35.000
+     </li>
+        <li>
+      Mie BangLadesh - Rp 20.000
+     </li>
+        <li>
+      Tahu Sambal Cabe Garam - Rp 18.000
+     </li>
+        <li>
+      French Fries - Rp 35.000
+     </li>
+        <li>
+      Fish Chips - Rp 14.000
+     </li>
+        <li>
+      BakTiaw Komplit - Rp 30.000
+     </li>
+    </ul>
+   </aside>
+   <table>
+         <tr>
+            <td><label for="nama" >Nama </label></td>
+            <td>:</td>
+            <td> <input type="text"  >
+        </tr>
+         <tr>
+            <td><label for="minum">Minuman</label></td>
+            <td>:</td>
+            <td>
+                <select name="minum" id="minum">
+                    <option value="burst">American Burst</option>
+                    <option value="creamy">Creamy Espresso</option>
+                    <option value="lemon">Fresh Lemonade</option>
+                    <option value="latte">Matcha Dubai Latte</option>
+                    <option value="tea">Thai Manggo Tea</option>
+                </select>
+            </td>
+        </tr>
+         <tr>
+            <td><label for="makan">Makanan</label></td>
+            <td>:</td>
+            <td>
+                <select name="makan" id="makan">
+                    <option value="Tiaw">BakTiaw Komplit</option>
+                    <option value="fish">Fish Chips</option>
+                    <option value="fries">French fries</option>
+                    <option value="mie">Mie BangLadesh</option>
+                    <option value="nasgor">Nasi Goreng Djaya</option>
+                    <option value="tahu">Tahu Cabe Garam</option>
+                </select>
+            </td>
+        </tr>
+         <tr>
+            <td><label for="member" > Member </label></td>
+            <td>:</td>
+            <td> <input type="checkbox" id="member">Ya (Diskon 10%)</td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" onclick="hitung()">
+                <input type="reset" onclick="reset()">
+            </td>
+        </tr>
+        <tr>
+            <td><p>Orderan Kamu </p></td>
+             <td>:</td>
+        </tr>
+        
+        <tr>
+            <td><label for="subtotal">Sub total Menu </label></td>
+            <td>:</td>
+            <td> <input type="text" id="subTotal">
+        </tr>
+        <tr>
+            <td><label for="Diskon">Diskon </label></td>
+            <td>:</td>
+            <td> <input type="text" id="Diskon">
+        </tr>
+        <tr>
+            <td><label for="totalbayar">Total Bayar </label></td>
+            <td>:</td>
+            <td> <input type="text" id="totalbayar">
+        </tr>
+
+        <script>
+           function formatRupiah(angka) {
+        return "Rp " + angka.toLocaleString("id-ID");
+    }
+
+    function hitung(event) {
+        // Mencegah formulir dari reload halaman secara otomatis
+        if(event) event.preventDefault();
+
+        const minum = document.getElementById("minum").value;
+        const makan = document.getElementById("makan").value;
+        const isMember = document.getElementById("member").checked;
+
+        // Hitung harga minuman berdasarkan nilai option (value)
+        let hargaMinum = 0;
+        switch(minum) {
+            case "burst": hargaMinum = 20000; break;
+            case "creamy": hargaMinum = 28000; break;
+            case "lemon": hargaMinum = 18000; break;
+            case "latte": hargaMinum = 30000; break;
+            case "tea": hargaMinum = 28000; break;
+            case "tarik": hargaMinum = 24000; break;
+            default: hargaMinum = 0;
+        }
+
+        // Hitung harga makanan berdasarkan nilai option (value)
+        let hargaMakan = 0;
+        switch(makan) {
+            case "Tiaw": hargaMakan = 30000; break;
+            case "fish": hargaMakan = 14000; break;
+            case "fries": hargaMakan = 35000; break;
+            case "mie": hargaMakan = 20000; break;
+            case "nasgor": hargaMakan = 35000; break;
+            case "tahu": hargaMakan = 18000; break;
+            default: hargaMakan = 0;
+        }
+
+        // Hitung Sub Total
+        const subTotal = hargaMinum + hargaMakan;
+
+        // Hitung Diskon (10% jika berstatus member)
+        let nominalDiskon = 0;
+        if (isMember) {
+            nominalDiskon = 0.1 * subTotal;
+        }
+
+        // Hitung Total Bayar
+        const totalBayar = subTotal - nominalDiskon;
+
+        // Tampilkan hasil ke input text
+        document.getElementById("subTotal").value = formatRupiah(subTotal);
+        document.getElementById("Diskon").value = formatRupiah(nominalDiskon);
+        document.getElementById("totalbayar").value = formatRupiah(totalBayar);
+    }
+        </script>
+    </table>
+  </main>
+  <footer>
+  <a href="meisya.html">Beranda</a>
+  </footer>
+</body>
+</html>
